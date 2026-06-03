@@ -38,7 +38,7 @@ exports.registerUser = async (req, res) => {
 
     await OTP.create({ email, otp, action: "account_verification" });
 
-     sendOTPEmail(email, otp, "account_verification");
+   await sendOTPEmail(email, otp, "account_verification");
 
     res.status(201).json({
       message: "User registered. Check email for OTP",
@@ -74,7 +74,7 @@ exports.loginUser = async (req, res) => {
 
       await OTP.create({ email, otp, action: "account_verification" });
 
-      sendOTPEmail(email, otp, "account_verification");
+      await sendOTPEmail(email, otp, "account_verification");
 
       return res.status(400).json({
         message: "Account not verified. New OTP sent to email",
