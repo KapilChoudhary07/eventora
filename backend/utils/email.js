@@ -110,7 +110,10 @@
 //   sendOTPEmail,
 // };
 
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({
+  path: path.join(__dirname, "../.env"),
+});(__dirname, "../.env"),
 
 const sendEmailJS = async ({ toEmail, subject, title, message, otp }) => {
   const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
