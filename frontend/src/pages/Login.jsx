@@ -129,8 +129,19 @@ const handleSubmit = async (e) => {
         >
           Sign up
         </Link>
+
+            
       </p>
+      <div className="text-center ">
+  <Link
+    to="/forgot-password"
+    className="text-sm text-gray-900 font-semibold hover:underline"
+  >
+    Forgot password?
+  </Link>
+</div>
     </div>
+    
   );
 };
 

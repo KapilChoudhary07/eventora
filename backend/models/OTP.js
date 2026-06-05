@@ -15,7 +15,7 @@ const otpSchema = new mongoose.Schema(
     },
     action:{
         type: String,
-        enum: ["account_verification", "event_booking"],
+        enum: ["account_verification", "event_booking","forgot_password"],
         required: true,
     },
 
