@@ -14,9 +14,9 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
-  }, connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
+  }, connectionTimeout: 25000,
+  greetingTimeout: 25000,
+  socketTimeout: 25000,
 });
 
 const sendBookingEmail = async (userEmail, userName, eventTitle) => {

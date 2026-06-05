@@ -21,7 +21,7 @@ const sendOTPWithTimeout = (email, otp, type) => {
     new Promise((_, reject) =>
       setTimeout(
         () => reject(new Error("OTP email timeout. Please try again.")),
-        10000
+        25000
       )
     ),
   ]);
