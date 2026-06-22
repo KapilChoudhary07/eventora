@@ -41,6 +41,7 @@ const ForgotPassword = () => {
       setError(
         err.response?.data?.message ||
           err.response?.data?.error ||
+          err.response?.data?.details ||
           err.message ||
           "Something went wrong"
       );

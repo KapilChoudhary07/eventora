@@ -30,7 +30,9 @@ const sendOTPWithTimeout = (email, otp, type) => {
 // REGISTER
 exports.registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const name = req.body.name?.trim();
+    const email = req.body.email?.trim().toLowerCase();
+    const { password } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -87,7 +89,8 @@ exports.registerUser = async (req, res) => {
 // LOGIN
 exports.loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const email = req.body.email?.trim().toLowerCase();
+    const { password } = req.body;
 
     const user = await User.findOne({ email });
 
@@ -138,7 +141,8 @@ exports.loginUser = async (req, res) => {
 // VERIFY OTP
 exports.verifyOtp = async (req, res) => {
   try {
-    const { email, otp } = req.body;
+    const email = req.body.email?.trim().toLowerCase();
+    const otp = req.body.otp?.trim();
 
     const otpRecord = await OTP.findOne({
       email,
@@ -181,7 +185,7 @@ exports.verifyOtp = async (req, res) => {
 // FORGOT PASSWORD
 exports.forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body;
+    const email = req.body.email?.trim().toLowerCase();
 
     const user = await User.findOne({ email });
 
@@ -215,7 +219,13 @@ exports.forgotPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   try {
-    const { email, otp, newPassword } = req.body;
+    const email = req.body.email?.trim().toLowerCase();
+    const otp = req.body.otp?.trim();
+    const { newPassword } = req.body;
+
+    if (!email || !otp || !newPassword) {
+      return res.status(400).json({ message: "Email, OTP and new password are required" });
+    }
 
     const otpRecord = await OTP.findOne({
       email,

@@ -49,11 +49,9 @@ const EventDetail = () => {
                 await api.post('/bookings', { eventId: event._id, otp });
                 setSuccessMsg('Booking requested! Awaiting admin confirmation.');
                 setShowOTP(false);
-                // Update local seats count dynamically after booking
-                setEvent({ ...event, availableSeats: event.availableSeats - 1 });
             }
         } catch (err) {
-            setError(err.response?.data?.message || 'Booking failed');
+            setError(err.response?.data?.message || err.response?.data?.error || 'Booking failed');
         } finally {
             setBookingLoading(false);
         }

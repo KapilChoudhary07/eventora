@@ -69,6 +69,7 @@ exports.bookEvent = async (req, res) => {
     const existingBooking = await Booking.findOne({
       userId: req.user._id,
       eventId,
+      status: { $ne: "cancelled" },
     });
 
     if (existingBooking) {
@@ -92,8 +93,9 @@ exports.bookEvent = async (req, res) => {
       action: "event_booking",
     });
 
-    // send email
-    await sendBookingEmail(req.user.email, event.title, booking._id);
+    sendBookingEmail(req.user.email, event.title, booking._id).catch((error) => {
+      console.log("Booking request email failed:", error.message);
+    });
 
     res.status(201).json({
       message: "Booking created successfully",
@@ -127,6 +129,10 @@ exports.confirmBooking = async (req, res) => {
       return res.status(400).json({ error: "Booking already confirmed" });
     }
 
+    if (booking.status === "cancelled") {
+      return res.status(400).json({ error: "Cancelled booking cannot be confirmed" });
+    }
+
     const event = await Event.findById(booking.eventId);
 
     if (!event || event.availableSeats <= 0) {
@@ -144,8 +150,11 @@ exports.confirmBooking = async (req, res) => {
 
     // 🔥 get user email safely
     const user = await User.findById(booking.userId);
-
-    await sendBookingEmail(user.email, event.title, booking._id);
+    if (user) {
+      sendBookingEmail(user.email, event.title, booking._id).catch((error) => {
+        console.log("Booking confirmation email failed:", error.message);
+      });
+    }
 
     res.json({
       message: "Booking confirmed successfully",
@@ -199,9 +208,15 @@ exports.cancelBooking = async (req, res) => {
       return res.status(404).json({ error: "Booking not found" });
     }
 
-    // check owner
-    if (booking.userId.toString() !== req.user._id.toString()) {
+    const isOwner = booking.userId.toString() === req.user._id.toString();
+    const isAdmin = req.user.role === "admin";
+
+    if (!isOwner && !isAdmin) {
       return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    if (booking.status === "cancelled") {
+      return res.status(400).json({ error: "Booking already cancelled" });
     }
 
     // restore seat if confirmed

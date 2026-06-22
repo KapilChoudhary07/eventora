@@ -3,7 +3,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: " https://eventify-mini-project.onrender.com/api",
+  baseURL:
+    (process.env.REACT_APP_API_URL || "https://eventify-mini-project.onrender.com/api").trim(),
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",

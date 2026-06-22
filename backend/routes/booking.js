@@ -10,7 +10,7 @@ const {
   getMyBookings,
 } = require("../controllers/bookingController");
 
-const{ protect, admin} = require("../middleware/auth");
+const { protect, admin } = require("../middleware/auth");
 
 // 🎟️ Step 1: book event (create pending booking)
 router.post("/", protect, bookEvent);
@@ -25,7 +25,7 @@ router.get("/my", protect, getMyBookings);
 router.get("/all", protect, admin, getAllBookings);
 
 // ✅ Step 3: confirm booking with OTP
-router.post("/confirm/:id", protect, confirmBooking);
+router.post("/confirm/:id", protect, admin, confirmBooking);
 
 // ❌ Cancel booking
 router.put("/:id", protect, cancelBooking);

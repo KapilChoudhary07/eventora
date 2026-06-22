@@ -86,7 +86,11 @@ const AdminDashboard = () => {
      await api.post(`/bookings/confirm/${id}`, { paymentStatus });
       fetchData();
     } catch (error) {
-      alert(error.response?.data?.message || "Error confirming booking");
+      alert(
+        error.response?.data?.message ||
+          error.response?.data?.error ||
+          "Error confirming booking"
+      );
     }
   };
 
@@ -96,7 +100,11 @@ const AdminDashboard = () => {
         await api.put(`/bookings/${id}`);
         fetchData();
       } catch (error) {
-        alert(error.response?.data?.message || "Error cancelling booking");
+        alert(
+          error.response?.data?.message ||
+            error.response?.data?.error ||
+            "Error cancelling booking"
+        );
       }
     }
   };
@@ -436,7 +444,7 @@ const AdminDashboard = () => {
                         </button>
                         <button
                           onClick={() =>
-                            handleConfirmBooking(booking._id, "not_paid")
+                            handleConfirmBooking(booking._id, "non_paid")
                           }
                           className="flex-1 min-w-[120px] bg-gray-50 text-gray-700 hover:bg-gray-800 hover:text-white border border-gray-200 text-xs font-bold py-2.5 px-3 rounded-lg shadow-sm transition"
                         >
