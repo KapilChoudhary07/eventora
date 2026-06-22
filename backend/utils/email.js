@@ -1,9 +1,30 @@
 
 
 const path = require("path");
+const nodemailer = require("nodemailer");
+
 require("dotenv").config({
   path: path.join(__dirname, "../.env"),
 });
+
+const buildHtml = ({ title, message, otp }) => `
+  <div style="font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px;">
+    <div style="max-width: 520px; margin: auto; background: #ffffff; padding: 25px; border-radius: 10px; text-align: center;">
+      <h2 style="color: #111; margin-top: 0;">${title}</h2>
+      <p style="color: #555; font-size: 15px;">${message}</p>
+      ${
+        otp
+          ? `<div style="margin: 20px 0;">
+              <span style="display: inline-block; font-size: 28px; letter-spacing: 6px; font-weight: bold; color: #2c3e50; background: #f1f1f1; padding: 10px 20px; border-radius: 8px;">${otp}</span>
+            </div>
+            <p style="color: #888; font-size: 13px;">This OTP is valid for 5 minutes.</p>`
+          : ""
+      }
+      <hr style="margin: 20px 0;" />
+      <p style="font-size: 12px; color: gray;">If you did not request this, please ignore this email.</p>
+    </div>
+  </div>
+`;
 
 const sendEmailJS = async ({ toEmail, subject, title, message, otp }) => {
   const requiredEnv = [
@@ -44,9 +65,45 @@ const sendEmailJS = async ({ toEmail, subject, title, message, otp }) => {
   }
 };
 
+const sendSmtpEmail = async ({ toEmail, subject, title, message, otp }) => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    throw new Error("Missing SMTP configuration: EMAIL_USER, EMAIL_PASS");
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `"Eventora" <${process.env.EMAIL_USER}>`,
+    to: toEmail,
+    subject,
+    html: buildHtml({ title, message, otp }),
+  });
+};
+
+const sendEmail = async (payload) => {
+  try {
+    await sendEmailJS(payload);
+  } catch (emailJsError) {
+    console.log("EmailJS failed, trying SMTP fallback:", emailJsError.message);
+    try {
+      await sendSmtpEmail(payload);
+    } catch (smtpError) {
+      throw new Error(
+        `Email failed. EmailJS: ${emailJsError.message}. SMTP: ${smtpError.message}`
+      );
+    }
+  }
+};
+
 const sendBookingEmail = async (userEmail, eventTitle, bookingId) => {
   try {
-    await sendEmailJS({
+    await sendEmail({
       toEmail: userEmail,
       subject: `Booking Confirmed: ${eventTitle}`,
       title: "Booking Confirmed",
@@ -76,7 +133,7 @@ const sendOTPEmail = async (userEmail, otp, type) => {
       message = "Please use the following OTP to reset your password.";
     }
 
-    await sendEmailJS({
+    await sendEmail({
       toEmail: userEmail,
       subject: title,
       title,
