@@ -1,59 +1,72 @@
-📌 Event Booking MERN App
+# 🎟️ Eventora - MERN Event Booking App
+**Eventora** is a premium, full-stack Event Booking Web Application built using the MERN stack (MongoDB, Express.js, React.js, Node.js). The platform enables users to explore upcoming events, register and log in securely, verify their emails, and seamlessly book events (both paid and free) with real-time status tracking.
 
-🚀 Overview
-This is a full-stack Event Booking Web Application built using the MERN stack (MongoDB, Express.js, React.js, Node.js).
-The application allows users to explore events, register/login, verify email, and book events with payment status tracking.
-<hr>
+---
+🖥️ **Live Demo:** [https://eventora-86gt.vercel.app/](https://eventora-86gt.vercel.app/)
 
-🚀 Live Demo <br>
-https://eventora-86gt.vercel.app/ <hr>
+---
+## ✨ Features
+- 🔐 **Secure User Authentication**: Sign Up, Login, and Logout functionality powered by JWT and bcryptjs encryption.
+- 📧 **Verification System**: Email verification flow using Nodemailer and EmailJS (OTP/Link based verification).
+- 📅 **Dynamic Event Catalog**: Explore list of events with details, pricing, schedule, and capacity.
+- 🎟️ **Ticket Booking System**: Simple booking flow for paid and unpaid events with ticket quantity validation.
+- 📊 **Real-time Status Tracking**: Real-time booking status (Pending / Confirmed) and user-specific dashboard.
+- 📱 **Fully Responsive UI**: Modern, fluid design built with React, React Icons, and Tailwind CSS.
+- 🛠️ **MVC Architecture**: Well-structured backend layout for high scalability and cleaner code maintenance.
 
-✨ Features <br>
-🔐 User Authentication (Login / Signup / Logout) <br>
-📧 Email Verification System (OTP / Link based) <br>
-🧾 Event Listing & Details Page <br>
-🎟️ Event Booking System <br>
-💳 Paid & Unpaid Event Handling <br>
-📊 Booking Status (Confirmed / Pending) <br>
-👤 User Dashboard <br>
-🔄 Secure API Integration <br>
-📱 Responsive UI <br>
-<hr>
+---
 
-🛠️ Tech Stack <br>
-Frontend: <br>
-React.js <br>
-Tailwind CSS <br>
+## 🛠️ Tech Stack
+### 💻 Frontend
+- **React.js (v19)** - A frontend library for building highly interactive, component-based user interfaces.
+- **Tailwind CSS** - A utility-first CSS framework used to build modern, sleek, and responsive layouts.
+- **React Router DOM (v7)** - Declarative, client-side routing for seamless page navigation.
+- **React Icons** - A rich library of icons used across the dashboard and landing pages.
+- **Axios** - Promise-based HTTP client for integrating frontend state with backend REST APIs.
+### ⚙️ Backend
+- **Node.js** - A cross-platform JavaScript runtime environment for executing backend code.
+- **Express.js (v5)** - A fast, minimalist web framework for building highly scalable backend APIs.
+- **Mongoose** - An Object Data Modeling (ODM) library for MongoDB and Node.js schema validation.
+### 🗄️ Database
+- **MongoDB** - A document-based NoSQL database used to store flexible data structures for users, events, and bookings.
+### 🔑 Security & Utilities
+- **JWT (JSON Web Tokens)** - Used for stateless user authentication and securing private API routes.
+- **BcryptJS** - Password hashing library to store user passwords securely in the database.
+- **EmailJS** - Dual integration for sending OTP/verification links with automatic SMTP fallback support.
 
-Backend: <br>
-Node.js <br>
-Express.js <br>
 
-Database: <br>
-MongoDB <br>
- 
-Other Tools: <br>
-Nodemailer (for email verification) <br>
-JWT (Authentication) <br>
+---
 
-<hr>
+## ☁️ Deployment
+- **Frontend Deployment:** Deployed on [Vercel](https://vercel.com/)
+- **Backend Deployment:** Deployed on [Render](https://render.com/)
 
-🔑 Key Highlights <br>
-🔒 Secure Authentication Flow with Email Verification <br>
-⚡ Optimized API Performance <br>
-📦 Scalable Backend Architecture <br>
-🎯 Clean Code Structure (MVC Pattern) <br>
-📱 Fully Responsive Design <br>
+---
+## 👨‍💻 Author
+- **Developer:** Kapil Choudhary
+- **Email:** [kapilchoudhary9171@gmail.com](mailto:kapilchoudhary9171@gmail.com)
+- **GitHub:** [@KapilChoudhary07](https://github.com/KapilChoudhary07)
 
-<hr>
-🚀 Deployment
-Frontend: Vercel
-Backend: Render 
+---
+## 📂 Project Structure
+```text
+Eventora/
+├── backend/
+│   ├── controllers/      # Route controllers (Auth, Events, Bookings)
+│   ├── middleware/       # JWT verification & route protection
+│   ├── models/           # Mongoose schemas (User, Event, Booking)
+│   ├── routes/           # Express router endpoints
+│   ├── utils/            # Helper utilities (Email dispatchers, etc.)
+│   ├── server.js         # Backend entry point
+│   └── package.json
+└── frontend/
+    ├── public/           # Static assets
+    ├── src/
+    │   ├── components/   # Reusable UI components
+    │   ├── pages/        # Main application pages
+    │   ├── App.js        # React routes & main entry
+    │   └── index.js      # ReactDOM render
+    └── package.json
 
-👨‍💻 Author
-Kapil Choudhary <br>
-📧 kapilchoudhary9171@gmail.com <br>
-<hr>
 
-⭐ Support
-If you found this project helpful, consider giving it a ⭐ on GitHub!
+    
